@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <link type="text/css" rel="stylesheet" href="style.css" />
+    <title>Chat</title>
 </head>
 <body>
-<div id="menu">
-    <p class="welcome">Welcome <b id="2"></b></p>
-    <div style="clear:both"></div>
-</div>
+    <p class="welcome">Welcome userName,</p>
+    <div id="chatbox"></div>
 
-<div id="chatbox"></div>
-
-<form name="message" action="">
-    <input name="usermsg" type="text" id="userMsg" size="100" />
+    <form name="message" action="">
+    <input name="usermsg" type="text" id="userMsg" size="50"/>
     <input name="submitmsg" type="button"  id="submitMsg" value="Send" onclick="sendMsg()" />
-</form>
+    </form>
+
+    <script>
+    $(document).ready(function(){
+        $("#inputName").keypress( function(e){
+            if(e.keyCode == 13){
+                asd();
+            }
+        })
+    })
+    </script>
 </body>
 </html>

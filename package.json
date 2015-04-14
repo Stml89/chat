@@ -1,0 +1,22 @@
+{
+    "users":[
+        {
+            "nickname":"Ptrv",
+            "cred":[
+                {
+                    "email": "petr@qq.by",
+                    "pass": "asd"
+                }
+            ]
+        },
+        {
+            "nickname":"Sdrv",
+            "cred":[
+                {
+                    "email": "sidr@tut.by",
+                    "pass": "sid12"
+                }
+            ]
+        }
+    ]
+}

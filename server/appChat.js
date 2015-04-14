@@ -1,3 +1,7 @@
+var options = {
+//    'log level': 0
+};
+
 var PORT = 8008,
     express = require('express'),
     app = express(),
