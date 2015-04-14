@@ -3,6 +3,6 @@
  */
 function addName()
 {
-    //alert("asd");
+    alert("asd");
     document.location.href = "chatForm.html";
 }
