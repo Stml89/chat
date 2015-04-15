@@ -1,10 +1,7 @@
 /**
  * Created by stml on 4/13/15.
  */
-var getButton = document.getElementById('login'),
-    flag = false;
-
-getButton.onclick = function(){
+function checkUser(){
     loadJSON('package.json');
 };
 
@@ -29,7 +26,7 @@ function getUsrCred( data ){
                             flag = true;
                             console.log( y.email );
                             console.log("you have logged successfully");
-                            document.location.href = "chatForm.html";
+                            document.location.href = "server/chatForm.html";
                         }
                     })
                 }
@@ -42,4 +39,9 @@ function getUsrCred( data ){
             alert( "net sovpadenii, vam nado zareg." );
         }
     //});
+}
+
+function asd()
+{
+
 }
