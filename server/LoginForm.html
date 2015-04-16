@@ -38,7 +38,7 @@
         userCredentials.n = document.getElementById("username").value;
         userCredentials.p = document.getElementById("password").value;
 
-        alert(userCredentials);
+        //console.log(userCredentials);
 
         socket.emit('checkUser', userCredentials );
    }
