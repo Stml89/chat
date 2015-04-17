@@ -4,13 +4,13 @@
 function checkUser(){
     loadJSON('package.json');
 };
-
+/*
 function loadJSON( url ) {
     $.getJSON( url,
         function( data ) {
             getUsrCred( data )
         });
-}
+}*/
 
 function getUsrCred( data ){
     //$("form#loginForm").submit(function() { // loginForm отправлена

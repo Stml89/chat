@@ -38,9 +38,8 @@
         userCredentials.n = document.getElementById("username").value;
         userCredentials.p = document.getElementById("password").value;
 
-        //console.log(userCredentials);
-
         socket.emit('checkUser', userCredentials );
+        window.location.href="/chatForm.html";
    }
 </script>
 
