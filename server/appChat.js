@@ -80,6 +80,17 @@ io.on('connection', function (socket) {
             //}
         })
     })
+    client.on('message', function (message) {
+        try {
+            //посылаем сообщение себе
+            client.emit('message', message);
+            //посылаем сообщение всем клиентам, кроме себя
+            client.broadcast.emit('message', message);
+        } catch (e) {
+            console.log(e);
+            client.disconnect();
+        }
+    });
 })
 
 function handler ( req, res ) {
@@ -100,4 +111,3 @@ function handler ( req, res ) {
         readStream.pipe( res );
     }
 }
-

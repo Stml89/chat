@@ -36,8 +36,26 @@
 
     <form name="message" action="">
     <input name="usermsg" type="text" id="userMsg" size="50"/>
-    <input name="submitmsg" type="button"  id="submitMsg" value="Send" onclick="sendMsg()" />
+    <input name="submitmsg" type="button"  id="submitMsg" value="Send" />
     </form>
 
+<script>
+    var socket = io.connect( 'http://127.0.0.1:80'),
+        sendUserMessage = document.getElementById("submitMsg");
+
+    sendUserMessage.onclick = function ( ) {
+        var userMessage = document.getElementById("userMsg").value;
+
+        if( userMessage == ' '){
+            console.log("empty message");
+        }else if( userMessage.length > 1e4 ){
+            console.log("Your message is too large");
+        }else{
+            console.log(userMessage);
+        }
+    }
+
+    socket.emit( 'message', userCredentials );
+</script>
 </body>
 </html>

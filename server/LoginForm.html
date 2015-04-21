@@ -30,16 +30,16 @@
 </form>
 
 <script>
-    var socket = io.connect('http://127.0.0.1:80');
+    var socket = io.connect( 'http://127.0.0.1:80' );
     var userCredentials = { }
 
-    var checkUserdata = document.getElementById("checkUserButton");
-    checkUserdata.onclick = function(){
-        userCredentials.n = document.getElementById("username").value;
-        userCredentials.p = document.getElementById("password").value;
+    var checkUserdata = document.getElementById( "checkUserButton" );
+    checkUserdata.onclick = function( ){
+        userCredentials.n = document.getElementById( "username" ).value;
+        userCredentials.p = document.getElementById( "password" ).value;
 
-        socket.emit('checkUser', userCredentials );
-        window.location.href="/chatForm.html";
+        socket.emit( 'checkUser', userCredentials );
+        window.location.href = " /chatForm.html ";
    }
 </script>
 
