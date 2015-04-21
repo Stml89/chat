@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="../style.css" />
-    <!--script language="javascript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
+    <!--scrip language="javascript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
+    <script src="http://localhost/socket.io/socket.io.js"></script>
     <title>Chat</title>
 </head>
 <body>
@@ -21,6 +22,7 @@
     }
 
     #chatbox {
+        overflow: auto;
         text-align:left;
         margin:0 auto;
         margin-bottom:25px;
@@ -29,33 +31,69 @@
         width:386px;
         border:1px solid #ACD8F0;
     }
+
+    .color {
+        padding: 5px;
+        border: 1px solid #d6e9c6;
+        border-radius: 8px;
+        color: #3c763d;
+        background-color: #dff0d8;
+    }
+
 </style>
 
-    <p class="welcome">Welcome userName,</p>
-    <div id="chatbox"></div>
+    <p class="welcome" id="name">Welcome,</p>
+    <div id="chatbox" class="chatbox"></div>
 
     <form name="message" action="">
-    <input name="usermsg" type="text" id="userMsg" size="50"/>
-    <input name="submitmsg" type="button"  id="submitMsg" value="Send" />
+        <input name="usermsg" type="text" id="userMsg" size="50"/>
+        <input name="submitmsg" type="submit"  id="submitMsg" value="Send" />
     </form>
 
 <script>
-    var socket = io.connect( 'http://127.0.0.1:80'),
-        sendUserMessage = document.getElementById("submitMsg");
+    function get_cookie ( cookie_name )
+    {
+        var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
 
-    sendUserMessage.onclick = function ( ) {
-        var userMessage = document.getElementById("userMsg").value;
-
-        if( userMessage == ' '){
-            console.log("empty message");
-        }else if( userMessage.length > 1e4 ){
-            console.log("Your message is too large");
-        }else{
-            console.log(userMessage);
-        }
+        if ( results )
+            return ( unescape ( results[2] ) );
+        else
+            return null;
     }
 
-    socket.emit( 'message', userCredentials );
+    var x = get_cookie( "userName" );
+//    alert(x);
+
+    var socket = io.connect( 'http://127.0.0.1:80' ),
+        sendUserMessage = document.getElementById( "submitMsg" ),
+        userMessage;
+
+    sendUserMessage.onclick = function ( ) {
+        userMessage = document.getElementById( "userMsg" ).value;
+
+        if( userMessage.length < 1 ){
+            console.log( "empty message" );
+        }else if( userMessage.length > 512 ){
+            console.log( "Your message is too large" );
+        }else{
+            console.log( userMessage );
+            socket.emit( "message", { message: userMessage, name: "Vasya" } );
+        }
+
+        userMessage.value = "";
+        //alert(document.cookie);
+    }
+
+    socket.on('message', function (data) {
+        //msg(data.name, data.message);
+        var p = document.getElementById("chatbox") ;
+            var div = document.createElement('div');
+            div.className = "color";
+            div.innerHTML = data.name + ":    " + data.message;
+            p.appendChild(div);
+            console.log( data );
+    })
+
 </script>
 </body>
 </html>

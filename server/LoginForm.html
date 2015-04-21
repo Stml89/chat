@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>-->
-    <script src="http://localhost/socket.io/socket.io.js"></script>
+    <script src="http://localhost:80/socket.io/socket.io.js"></script>
     <title>Login form</title>
 </head>
 <body>
@@ -30,17 +30,19 @@
 </form>
 
 <script>
-    var socket = io.connect( 'http://127.0.0.1:80' );
-    var userCredentials = { }
+    var socket = io.connect( 'http://127.0.0.1:80'),
+        userCredentials = {},
+        checkUserdata = document.getElementById( "checkUserButton");
 
-    var checkUserdata = document.getElementById( "checkUserButton" );
     checkUserdata.onclick = function( ){
         userCredentials.n = document.getElementById( "username" ).value;
         userCredentials.p = document.getElementById( "password" ).value;
 
+        document.cookie = "userName="+userCredentials.n;
+
         socket.emit( 'checkUser', userCredentials );
         window.location.href = " /chatForm.html ";
-   }
+    }
 </script>
 
 </body>

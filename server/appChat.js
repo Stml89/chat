@@ -43,19 +43,20 @@ io.on('connection', function (socket) {
 var app = require('http').createServer(handler).listen(80),
     io = require('socket.io')(app),
     fs = require('fs'),
-    jsonObj = require("./package.json"),
-    url = require('url');
+    jsonObj = require("./package.json");
+    //url = require('url');
 
-io.on('connection', function (socket) {
+io.sockets.on('connection', function (socket) {
+
     socket.emit('news', {hello: 'world'});
+
     socket.on('checkUser', function ( data ) {
         //try {
         jsonObj.users.forEach( function ( i ) {
-            if( data.n == i.nickname){
+            if( data.n == i.nickname ){
                 i.cred.forEach( function ( y ) {
                     if( data.p == y.pass ){
-                        console.log("OK");
-
+                        console.log( "OK" );
                     }/*else{
                         console.log("username or password is incorrect");
                     }*/
@@ -80,26 +81,23 @@ io.on('connection', function (socket) {
             //}
         })
     })
-    client.on('message', function (message) {
-        try {
-            //посылаем сообщение себе
-            client.emit('message', message);
-            //посылаем сообщение всем клиентам, кроме себя
-            client.broadcast.emit('message', message);
-        } catch (e) {
-            console.log(e);
-            client.disconnect();
+
+    socket.on( 'message', function ( message ) {
+        //console.log( message );
+        try{
+            socket.emit( 'message', message );
+        } catch ( e ){
+            console.log( e );
         }
     });
+
 })
 
 function handler ( req, res ) {
 /*
     var filename = __dirname + req.url,
         readStream = fs.createReadStream(filename);
-
     readStream.pipe(res);*/
-
     if( req.url == '/LoginForm.html' ) {
         var filename = __dirname + req.url,
             readStream = fs.createReadStream( filename );
