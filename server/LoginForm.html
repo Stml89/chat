@@ -30,7 +30,7 @@
 </form>
 
 <script>
-    var socket = io.connect( 'http://127.0.0.1'),
+    var socket = io.connect( 'http://127.0.0.1:80'),
         userCredentials = {},
         checkUserdata = document.getElementById( "checkUserButton");
 
@@ -38,12 +38,12 @@
         userCredentials.n = document.getElementById( "username" ).value;
         userCredentials.p = document.getElementById( "password" ).value;
 
-        document.cookie = "userName="+userCredentials.n;
+        document.cookie = "userName=" + userCredentials.n;
 
         socket.emit( 'checkUser', userCredentials );
     }
 
-    socket.on('ok', function (data) {
+    socket.on('ok', function ( ) {
         window.location.href = '/chatForm.html';
     })
 

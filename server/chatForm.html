@@ -56,7 +56,7 @@
         var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
 
         if ( results )
-            return ( unescape ( results[2] ) );
+            return ( unescape ( results[ 2 ] ) );
         else
             return null;
     }
@@ -79,19 +79,19 @@
             console.log( "Your message is too large" );
         }else{
             console.log( userMessage );
-            socket.emit( "send", { message: userMessage } );
+            socket.emit( "send", { message: userMessage, name: x } );
             userMessage.value = "";
         }
         //alert(document.cookie);
     }
 
-    socket.on('message', function (data) {
-        var p = document.getElementById("chatbox"),
-            div = document.createElement('div');
+    socket.on( 'message', function ( data ) {
+        var p = document.getElementById( "chatbox" ),
+            div = document.createElement( 'div' );
 
         div.className = "color";
-        div.innerHTML = x + ":    " + data.message;
-        p.appendChild(div);
+        div.innerHTML = data.name + ":    " + data.message;
+        p.appendChild( div );
         console.log( data );
     })
 

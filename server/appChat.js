@@ -46,11 +46,12 @@ var app = require( 'http' ).createServer( handler ).listen( 80 ),
     jsonObj = require( './package.json' );
 
 io.sockets.on('connection', function ( socket ) {
-    socket.emit('message', { message: ' has joined this chat' });
+    socket.broadcast.emit( 'message', { message: ' has joined this chat' } );
     socket.on( 'send', function ( message ) {
-        try {
+        try{
             socket.emit( 'message', message );
-        } catch ( e ){
+            socket.broadcast.emit( 'message', message );
+        }catch( e ){
             console.log( e );
         }
     });
@@ -58,15 +59,15 @@ io.sockets.on('connection', function ( socket ) {
     socket.on('checkUser', function ( data ) {
         //try {
         jsonObj.users.forEach( function ( i ) {
-            if( data.n == i.nickname ){
+            if( data.n == i.nickname ) {
                 i.cred.forEach( function ( y ) {
                     if( data.p == y.pass ) {
-                        socket.emit( 'ok', { message: 'ok' } );
+                        socket.emit( 'ok' );
                     }else{
                      console.log("username or password is incorrect");
                      }
                 })
-            } else {
+            }else{
                 console.log("username or password is incorrect");
                 //console.log("The username \'" + data.n + "\' is absent or invalid");
             }
