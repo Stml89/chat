@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link type="text/css" rel="stylesheet" href="../style.css" />
+    <!--link type="text/css" rel="stylesheet" href="../style.css" /-->
     <!--scrip language="javascript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
-    <script src="http://localhost/socket.io/socket.io.js"></script>
+    <script src="http://localhost:80/socket.io/socket.io.js"></script>
     <title>Chat</title>
 </head>
 <body>
@@ -42,7 +42,7 @@
 
 </style>
 
-    <p class="welcome" id="name">Welcome,</p>
+    <p class="welcome" id="name"></p>
     <div id="chatbox" class="chatbox"></div>
 
     <form name="message" action="">
@@ -51,7 +51,7 @@
     </form>
 
 <script>
-    function get_cookie ( cookie_name )
+    function get_cookie( cookie_name )
     {
         var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
 
@@ -62,9 +62,11 @@
     }
 
     var x = get_cookie( "userName" );
-//    alert(x);
+    document.getElementById( "name" ).innerHTML = "Welcome, " + x;
 
-    var socket = io.connect( 'http://127.0.0.1:80' ),
+
+    /*var socket = io.connect( 'http://192.168.10.76:80' ),*/
+    var socket = io.connect( 'http://127.0.0.1:80'),
         sendUserMessage = document.getElementById( "submitMsg" ),
         userMessage;
 
@@ -77,23 +79,23 @@
             console.log( "Your message is too large" );
         }else{
             console.log( userMessage );
-            socket.emit( "message", { message: userMessage, name: "Vasya" } );
+            socket.emit( "send", { message: userMessage } );
+            userMessage.value = "";
         }
-
-        userMessage.value = "";
         //alert(document.cookie);
     }
 
     socket.on('message', function (data) {
-        //msg(data.name, data.message);
-        var p = document.getElementById("chatbox") ;
-            var div = document.createElement('div');
-            div.className = "color";
-            div.innerHTML = data.name + ":    " + data.message;
-            p.appendChild(div);
-            console.log( data );
+        var p = document.getElementById("chatbox"),
+            div = document.createElement('div');
+
+        div.className = "color";
+        div.innerHTML = x + ":    " + data.message;
+        p.appendChild(div);
+        console.log( data );
     })
 
 </script>
 </body>
 </html>
+

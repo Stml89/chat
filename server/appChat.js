@@ -40,64 +40,66 @@ io.on('connection', function (socket) {
     })
 })*/
 
-var app = require('http').createServer(handler).listen(80),
-    io = require('socket.io')(app),
-    fs = require('fs'),
-    jsonObj = require("./package.json");
-    //url = require('url');
+var app = require( 'http' ).createServer( handler ).listen( 80 ),
+    io = require( 'socket.io' )( app ),
+    fs = require( 'fs' ),
+    jsonObj = require( './package.json' );
 
-io.sockets.on('connection', function (socket) {
-
-    socket.emit('news', {hello: 'world'});
-
-    socket.on('checkUser', function ( data ) {
-        //try {
-        jsonObj.users.forEach( function ( i ) {
-            if( data.n == i.nickname ){
-                i.cred.forEach( function ( y ) {
-                    if( data.p == y.pass ){
-                        console.log( "OK" );
-                    }/*else{
-                        console.log("username or password is incorrect");
-                    }*/
-                })
-            }/*else{
-                console.log("username or password is incorrect");
-                //console.log("The username \'" + data.n + "\' is absent or invalid");
-            }*/
-            //    if( data.n != i.nickname){
-            //        throw 'throwing exception';
-            //    }else{
-            //        i.cred.forEach( function ( y ) {
-            //            if( data.p == y.pass ){
-            //                console.log("OK");
-            //            }
-            //        })
-            //    }
-            //})
-            //} catch(e){
-            //    console.log("The User name \'" + data.n + "\' is absent or invalid");
-            //
-            //}
-        })
-    })
-
-    socket.on( 'message', function ( message ) {
-        //console.log( message );
-        try{
+io.sockets.on('connection', function ( socket ) {
+    socket.emit('message', { message: ' has joined this chat' });
+    socket.on( 'send', function ( message ) {
+        try {
             socket.emit( 'message', message );
         } catch ( e ){
             console.log( e );
         }
     });
 
+    socket.on('checkUser', function ( data ) {
+        //try {
+        jsonObj.users.forEach( function ( i ) {
+            if( data.n == i.nickname ){
+                i.cred.forEach( function ( y ) {
+                    if( data.p == y.pass ) {
+                        socket.emit( 'ok', { message: 'ok' } );
+                    }else{
+                     console.log("username or password is incorrect");
+                     }
+                })
+            } else {
+                console.log("username or password is incorrect");
+                //console.log("The username \'" + data.n + "\' is absent or invalid");
+            }
+            //    if( data.n != i.nickname){
+                    //        throw 'throwing exception';
+                    //    }else{
+                    //        i.cred.forEach( function ( y ) {
+                    //            if( data.p == y.pass ){
+                    //                console.log("OK");
+                    //            }
+                    //        })
+                    //    }
+                    //})
+                    //} catch(e){
+                    //    console.log("The User name \'" + data.n + "\' is absent or invalid");
+                    //
+                    //}
+        })
+    })
 })
 
 function handler ( req, res ) {
-/*
-    var filename = __dirname + req.url,
-        readStream = fs.createReadStream(filename);
-    readStream.pipe(res);*/
+   /* if( req.url == '/' ){
+        var filename = __dirname + '/LoginForm.html',
+            readStream = fs.createReadStream( filename );
+        readStream.pipe( res );
+    } else if( req.url == '/chat' ) {
+        var filename = __dirname + '/chatForm.html',
+            readStream = fs.createReadStream( filename );
+        readStream.pipe( res );
+    }else{
+        console.log("bad url, 404");
+    }*/
     if( req.url == '/LoginForm.html' ) {
         var filename = __dirname + req.url,
             readStream = fs.createReadStream( filename );
