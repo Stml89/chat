@@ -87,6 +87,38 @@ io.sockets.on('connection', function ( socket ) {
                     //}
         })
     })
+
+    socket.on( 'addNewUser', function ( data ) {
+        var i = jsonObj.users.length;
+
+//        jsonObj.users.forEach( function ( i ) {
+//            if( data.n != i.nickname ) {
+//                i.cred.forEach( function ( y ) {
+//                    if( data.m != y.email ) {
+                        jsonObj.users[ i ] = {
+                            "nickname": data.n,
+                            "cred": {
+                                "email": data.m,
+                                "pass": data.p
+                            }
+                        }
+//                    }else{
+//                        console.log("Sorry, that email is already taken");
+//                        return false;
+//                    }
+//                })
+//            }else{
+//                console.log("Sorry, that username is already taken");
+//                return false;
+//            }
+//        })
+
+        fs.writeFile( 'package.json', JSON.stringify( jsonObj ), function( err ) {
+                if ( err ) return console.log( err );
+            });
+
+        socket.emit( 'ok' );
+    })
 })
 
 function handler ( req, res ) {
@@ -101,12 +133,17 @@ function handler ( req, res ) {
     }else{
         console.log("bad url, 404");
     }*/
-    if( req.url == '/LoginForm.html' ) {
-        var filename = __dirname + req.url,
+    if( req.url == '/' ) {
+        var filename = __dirname + '/LoginForm.html',
             readStream = fs.createReadStream( filename );
         readStream.pipe( res );
 
     } else if( req.url == '/chatForm.html' ) {
+        var filename = __dirname + req.url,
+            readStream = fs.createReadStream( filename );
+        readStream.pipe( res );
+
+    } else if( req.url == '/index.html' ) {
         var filename = __dirname + req.url,
             readStream = fs.createReadStream( filename );
         readStream.pipe( res );

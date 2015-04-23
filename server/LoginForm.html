@@ -27,10 +27,12 @@
         <input type="password" class="form-control" placeholder="password" name="password" id="password"/>
     </div>
     <input type="submit" id="checkUserButton"/>
+    <p>Please, <a href="./index.html">Register</a> if you haven't already done it</p>
 </form>
 
 <script>
-    var socket = io.connect( 'http://127.0.0.1:80'),
+    /*var socket = io.connect( 'http://127.0.0.1:80' ),*/
+    var socket = io.connect( 'http://192.168.10.76:80'),
         userCredentials = {},
         checkUserdata = document.getElementById( "checkUserButton");
 
@@ -38,7 +40,8 @@
         userCredentials.n = document.getElementById( "username" ).value;
         userCredentials.p = document.getElementById( "password" ).value;
 
-        document.cookie = "userName=" + userCredentials.n;
+//        document.cookie = "userName=" + userCredentials.n;
+        sessionStorage.name = userCredentials.n;
 
         socket.emit( 'checkUser', userCredentials );
     }

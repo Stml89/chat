@@ -46,12 +46,12 @@
     <div id="chatbox" class="chatbox"></div>
 
     <form name="message" action="">
-        <input name="usermsg" type="text" id="userMsg" size="50"/>
+        <input name="usermsg" type="text" id="userMsg" size="50" autofocus/>
         <input name="submitmsg" type="submit"  id="submitMsg" value="Send" />
     </form>
 
 <script>
-    function get_cookie( cookie_name )
+    /*function get_cookie( cookie_name )
     {
         var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
 
@@ -61,28 +61,29 @@
             return null;
     }
 
-    var x = get_cookie( "userName" );
+    var x = get_cookie( "userName" );*/
+
+    var x = sessionStorage.name;
     document.getElementById( "name" ).innerHTML = "Welcome, " + x;
 
-
-    /*var socket = io.connect( 'http://192.168.10.76:80' ),*/
-    var socket = io.connect( 'http://127.0.0.1:80'),
+    /*var socket = io.connect( 'http://127.0.0.1:80' ),*/
+    var socket = io.connect( 'http://192.168.10.76:80'),
         sendUserMessage = document.getElementById( "submitMsg" ),
-        userMessage;
+        userMessage = document.getElementById( "userMsg" );
+
+    document.getElementById( "userMsg").focus();
 
     sendUserMessage.onclick = function ( ) {
-        userMessage = document.getElementById( "userMsg" ).value;
 
-        if( userMessage.length < 1 ){
+        if( userMessage.value.length < 1 ){
             console.log( "empty message" );
-        }else if( userMessage.length > 512 ){
+        }else if( userMessage.value.length > 512 ){
             console.log( "Your message is too large" );
         }else{
-            console.log( userMessage );
-            socket.emit( "send", { message: userMessage, name: x } );
+            socket.emit( "send", { message: userMessage.value, name: x } );
             userMessage.value = "";
         }
-        //alert(document.cookie);
+        document.getElementById( "userMsg").focus();
     }
 
     socket.on( 'message', function ( data ) {
@@ -92,7 +93,6 @@
         div.className = "color";
         div.innerHTML = data.name + ":    " + data.message;
         p.appendChild( div );
-        console.log( data );
     })
 
 </script>
