@@ -2,8 +2,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!--link type="text/css" rel="stylesheet" href="../style.css" /-->
-    <!--scrip language="javascript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
     <script src="http://localhost:80/socket.io/socket.io.js"></script>
     <title>Chat</title>
 </head>
@@ -41,31 +39,17 @@
     }
 
 </style>
-
-    <p class="welcome" id="name"></p>
+    <p id="name"></p>
     <div id="chatbox" class="chatbox"></div>
-
-    <form name="message" action="">
-        <input name="usermsg" type="text" id="userMsg" size="50" autofocus/>
-        <input name="submitmsg" type="submit"  id="submitMsg" value="Send" />
-    </form>
+    <input name="usermsg" type="text" id="userMsg" size="50"/>
+    <input name="submitmsg" type="submit"  id="submitMsg" value="Send" />
 
 <script>
-    /*function get_cookie( cookie_name )
-    {
-        var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
-
-        if ( results )
-            return ( unescape ( results[ 2 ] ) );
-        else
-            return null;
-    }
-
-    var x = get_cookie( "userName" );*/
-
     var x = sessionStorage.name;
     document.getElementById( "name" ).innerHTML = "Welcome, " + x;
-
+    if( sessionStorage.isLog != "Ok" ){
+        window.location.href = '/';
+    }
     /*var socket = io.connect( 'http://127.0.0.1:80' ),*/
     var socket = io.connect( 'http://192.168.10.76:80'),
         sendUserMessage = document.getElementById( "submitMsg" ),
@@ -74,7 +58,6 @@
     document.getElementById( "userMsg").focus();
 
     sendUserMessage.onclick = function ( ) {
-
         if( userMessage.value.length < 1 ){
             console.log( "empty message" );
         }else if( userMessage.value.length > 512 ){

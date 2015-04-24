@@ -17,7 +17,7 @@
     }
 </style>
 
-<form action="" method="post" id="loginForm">
+<form method="post" id="loginForm">
     <div class="form-group">
         <label>Username</label>
         <input type="text" ng-model="yourName" class="form-control" placeholder="username" name="username" id="username"/>
@@ -40,13 +40,12 @@
         userCredentials.n = document.getElementById( "username" ).value;
         userCredentials.p = document.getElementById( "password" ).value;
 
-//        document.cookie = "userName=" + userCredentials.n;
-        sessionStorage.name = userCredentials.n;
-
         socket.emit( 'checkUser', userCredentials );
     }
 
     socket.on('ok', function ( ) {
+        sessionStorage.name = userCredentials.n;
+        sessionStorage.isLog = "Ok";
         window.location.href = '/chatForm.html';
     })
 
